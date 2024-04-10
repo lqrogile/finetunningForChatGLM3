@@ -36,9 +36,9 @@ class Role(Enum):
             case Role.SYSTEM.value:
                 return
             case Role.USER.value:
-                return st.chat_message(name="user", avatar="user")
+                return st.chat_message(name="user", avatar="🧑‍💻")
             case Role.ASSISTANT.value:
-                return st.chat_message(name="assistant", avatar="assistant")
+                return st.chat_message(name="assistant", avatar="🤖")
             case Role.TOOL.value:
                 return st.chat_message(name="tool", avatar="assistant")
             case Role.INTERPRETER.value:
@@ -89,23 +89,23 @@ class Conversation:
             text = self.get_text()
             message.markdown(text)
 
-def preprocess_text(
-    system: str | None,
-    tools: list[dict] | None,
-    history: list[Conversation],
-) -> str:
-    if tools:
-        tools = json.dumps(tools, indent=4, ensure_ascii=False)
+# def preprocess_text(
+#     system: str | None,
+#     tools: list[dict] | None,
+#     history: list[Conversation],
+# ) -> str:
+#     if tools:
+#         tools = json.dumps(tools, indent=4, ensure_ascii=False)
 
-    prompt = f"{Role.SYSTEM}\n"
-    prompt += system if not tools else TOOL_PROMPT
-    if tools:
-        tools = json.loads(tools)
-        prompt += json.dumps(tools, ensure_ascii=False)
-    for conversation in history:
-        prompt += f'{conversation}'
-    prompt += f'{Role.ASSISTANT}\n'
-    return prompt
+#     prompt = f"{Role.SYSTEM}\n"
+#     prompt += system if not tools else TOOL_PROMPT
+#     if tools:
+#         tools = json.loads(tools)
+#         prompt += json.dumps(tools, ensure_ascii=False)
+#     for conversation in history:
+#         prompt += f'{conversation}'
+#     prompt += f'{Role.ASSISTANT}\n'
+#     return prompt
 
 def postprocess_text(text: str) -> str:
     text = text.replace("\(", "$")

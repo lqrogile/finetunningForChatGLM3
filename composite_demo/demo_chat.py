@@ -4,7 +4,6 @@ from streamlit.delta_generator import DeltaGenerator
 from client import get_client
 from conversation import postprocess_text, preprocess_text, Conversation, Role
 
-client = get_client()
 
 
 # Append a conversation into history, while show it in a new markdown block
@@ -18,14 +17,16 @@ def append_conversation(
 
 
 def main(
+        model_type: str,
         prompt_text: str,
         system_prompt: str,
         top_p: float = 0.8,
-        temperature: float = 0.95,
+        temperature: float = 0.5,
         repetition_penalty: float = 1.0,
         max_new_tokens: int = 1024,
         retry: bool = False
 ):
+    client = get_client(model_type)
     placeholder = st.empty()
     with placeholder.container():
         if 'chat_history' not in st.session_state:
@@ -37,19 +38,19 @@ def main(
         return
 
     history: list[Conversation] = st.session_state.chat_history
-    for conversation in history:
-        conversation.show()
 
     if retry:
-        print("\n== Retry ==\n")
+        print("\n== retry ==\n")
         last_user_conversation_idx = None
-        for idx, conversation in enumerate(history):
+        for idx, conversation in enumerate(history): # 获取最后一个用户输入
             if conversation.role == Role.USER:
                 last_user_conversation_idx = idx
         if last_user_conversation_idx is not None:
             prompt_text = history[last_user_conversation_idx].content
             del history[last_user_conversation_idx:]
 
+    for conversation in history:
+        conversation.show()
 
     if prompt_text:
         prompt_text = prompt_text.strip()

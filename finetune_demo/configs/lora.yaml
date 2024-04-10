@@ -1,6 +1,6 @@
 data_config:
-  train_file: train_norm.json
-  val_file: dev_norm.json
+  train_file: train.json
+  val_file: dev.json
   test_file: 
   num_proc: 16
 max_input_length: 1024
@@ -21,7 +21,7 @@ training_args:
   logging_strategy: steps
   logging_steps: 10
   # settings for evaluation
-  per_device_eval_batch_size: 16
+  per_device_eval_batch_size: 2
   evaluation_strategy: steps
   eval_steps: 500
   # settings for optimizer

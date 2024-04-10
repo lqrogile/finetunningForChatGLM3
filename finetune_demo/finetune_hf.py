@@ -408,6 +408,7 @@ def compute_metrics(eval_preds: EvalPrediction, tokenizer: PreTrainedTokenizer):
     batched_pred_ids, batched_label_ids = eval_preds
 
     metrics_dct = {'rouge-1': [], 'rouge-2': [], 'rouge-l': [], 'bleu-4': []}
+    # metrics_dct = {'rouge-1': [], 'rouge-2': [], 'rouge-l': []}
     for pred_ids, label_ids in zip(batched_pred_ids, batched_label_ids):
         pred_txt = tokenizer.decode(pred_ids).strip()
         label_txt = tokenizer.decode(label_ids).strip()

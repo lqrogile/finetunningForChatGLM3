@@ -15,14 +15,16 @@ from conversation import Conversation
 
 TOOL_PROMPT = 'Answer the following questions as best as you can. You have access to the following tools:'
 
-MODEL_PATH = os.environ.get('MODEL_PATH', 'THUDM/chatglm3-6b')
+MODEL_PATH_LIST = ['/mnt/workspace/fine', '/mnt/workspace/base']
+MODEL_PATH = os.environ.get('MODEL_PATH', MODEL_PATH_LIST[0])
 PT_PATH = os.environ.get('PT_PATH', None)
 PRE_SEQ_LEN = int(os.environ.get("PRE_SEQ_LEN", 128))
 TOKENIZER_PATH = os.environ.get("TOKENIZER_PATH", MODEL_PATH)
 
 
 @st.cache_resource
-def get_client() -> Client:
+def get_client(model_type) -> Client:
+    MODEL_PATH = MODEL_PATH_LIST[0] if model_type == 'ChatGLM3-FTS' else MODEL_PATH_LIST[1]
     client = HFClient(MODEL_PATH, TOKENIZER_PATH, PT_PATH)
     return client
 
