@@ -48,7 +48,9 @@ def main(
         prompt: Annotated[str, typer.Option(help='')],
 ):
     model, tokenizer = load_model_and_tokenizer(model_dir)
-    response, _ = model.chat(tokenizer, prompt)
+    # prompt += "你是针对金融文本摘要生成微调后的大语言模型，用户将输入金融领域的文本，你针对用户输入的文本生成摘要，要求包括输入文本的关键信息，在最后输出给用户前，你需要调整语言风格，使其看起来更加严谨准确，且符合摘要的格式。"
+    history = []
+    response, _ = model.chat(tokenizer, prompt, history)
     print(response)
 
 

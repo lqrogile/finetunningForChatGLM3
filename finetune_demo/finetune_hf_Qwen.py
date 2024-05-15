@@ -295,9 +295,10 @@ def process_batch(
             if message['role'] == 'tool':
                 raise NotImplementedError()
             else:
-                new_input_ids = tokenizer.build_single_message(
-                    message['role'], '', message['content']
-                )
+                # new_input_ids = tokenizer.build_single_message(
+                #     message['role'], '', message['content']
+                # )
+                new_input_ids = tokenizer(message['role']).input_ids + tokenizer('').input_ids + tokenizer(message['content']).input_ids
                 new_loss_masks = [loss_mask_val] * len(new_input_ids)
 
             input_ids += new_input_ids
@@ -339,7 +340,7 @@ def process_batch_eval(
         #                             "#\n这个项目的主要对象是需要从海量金融文本中迅速得到专业且精炼的摘要\n# RESPONSE #\n摘要, " \
         #                             "保持简洁但全面.\n#Example#\n<text>:用户发送的原始文本\n<summary>:你总结得到的摘要\nSummarize the review " \
         #                             "below,in at most 50 words."}, *conv]
-        # conv = [{"role": "system", "content": "Generate a concise and accurate summary for the provided financial text, focusing on key information, adjusting the language style to be formal and precise, and maintaining coherent and logically structured content. Ensure the summary length is between 3 to 5 sentences, highlight the main points, and avoid colloquial expressions."}, *conv]
+        # conv = [{"role": "system", "content": "生成所提供金融文本的简洁准确摘要，聚焦于输入文本的关键信息，调整语言风格为正式精确，并保持摘要结构的连贯性和逻辑清晰。要求摘要长度为3至5句，突出主要信息，避免口语表达。"}, *conv]
         # input_ids = [
         #     tokenizer.get_command('[gMASK]'),
         #     tokenizer.get_command('sop'),
@@ -357,9 +358,10 @@ def process_batch_eval(
             if message['role'] == 'tool':
                 raise NotImplementedError()
             else:
-                new_input_ids = tokenizer.build_single_message(
-                    message['role'], '', message['content']
-                )
+                # new_input_ids = tokenizer.build_single_message(
+                #     message['role'], '', message['content']
+                # )
+                new_input_ids = tokenizer(message['role']).input_ids + tokenizer('').input_ids + tokenizer(message['content']).input_ids
                 if message['role'] == 'assistant':
                     output_prompt, output_ids = (
                         new_input_ids[:1],
@@ -420,6 +422,8 @@ def load_tokenizer_and_model(
 
 def compute_metrics(eval_preds: EvalPrediction, tokenizer: PreTrainedTokenizer):
     batched_pred_ids, batched_label_ids = eval_preds
+    batched_pred_ids = np.where(batched_pred_ids != -100, batched_pred_ids, tokenizer.pad_token_id)
+    batched_label_ids = np.where(batched_label_ids != -100, batched_label_ids, tokenizer.pad_token_id)
 
     metrics_dct = {'rouge-1': [], 'rouge-2': [], 'rouge-l': [], 'bleu-4': []}
     # metrics_dct = {'rouge-1': [], 'rouge-2': [], 'rouge-l': []}
@@ -460,6 +464,7 @@ def main(
 ):
     ft_config = FinetuningConfig.from_file(config_file)
     tokenizer, model = load_tokenizer_and_model(model_dir, peft_config=ft_config.peft_config)
+    tokenizer.pad_token_id = tokenizer.eod_id
     data_manager = DataManager(data_dir, ft_config.data_config)
 
     train_dataset = data_manager.get_dataset(
@@ -506,14 +511,18 @@ def main(
     # turn model to fp32
     _prepare_model_for_training(model, ft_config.training_args.use_cpu)
 
+    # ft_config.training_args.generation_config.pad_token_id = (
+    #     tokenizer.pad_token_id
+    # )
     ft_config.training_args.generation_config.pad_token_id = (
-        tokenizer.pad_token_id
+        tokenizer.eod_id
     )
-    ft_config.training_args.generation_config.eos_token_id = [
-        tokenizer.eos_token_id,
-        tokenizer.get_command('<|user|>'),
-        tokenizer.get_command('<|observation|>'),
-    ]
+    # ft_config.training_args.generation_config.eos_token_id = [
+    #     tokenizer.eos_token_id,
+    #     tokenizer.get_command('<|user|>'),
+    #     tokenizer.get_command('<|observation|>'),
+    # ]
+    ft_config.training_args.generation_config.im_end_id = [tokenizer.im_end_id] + tokenizer('<|user|>').input_ids + tokenizer('<|observation|>').input_ids
     model.gradient_checkpointing_enable()
     model.enable_input_require_grads()
     trainer = Seq2SeqTrainer(

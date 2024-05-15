@@ -2,9 +2,10 @@ import streamlit as st
 from streamlit.delta_generator import DeltaGenerator
 
 from client import get_client
-from conversation import postprocess_text, preprocess_text, Conversation, Role
+from conversation import postprocess_text, Conversation, Role
 
 
+client = get_client()
 
 # Append a conversation into history, while show it in a new markdown block
 def append_conversation(
@@ -17,7 +18,6 @@ def append_conversation(
 
 
 def main(
-        model_type: str,
         prompt_text: str,
         system_prompt: str,
         top_p: float = 0.8,
@@ -26,7 +26,6 @@ def main(
         max_new_tokens: int = 1024,
         retry: bool = False
 ):
-    client = get_client(model_type)
     placeholder = st.empty()
     with placeholder.container():
         if 'chat_history' not in st.session_state:
@@ -56,7 +55,7 @@ def main(
         prompt_text = prompt_text.strip()
         append_conversation(Conversation(Role.USER, prompt_text), history)
         placeholder = st.empty()
-        message_placeholder = placeholder.chat_message(name="assistant", avatar="assistant")
+        message_placeholder = placeholder.chat_message(name="assistant")
         markdown_placeholder = message_placeholder.empty()
 
         output_text = ''

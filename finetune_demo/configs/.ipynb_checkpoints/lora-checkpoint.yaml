@@ -1,29 +1,31 @@
 data_config:
-  train_file: train_norm.json
-  val_file: dev_norm.json
-  test_file: 
+  train_file: trainV2.json
+  val_file: devV2.json
+  test_file: devV2.json
   num_proc: 16
 max_input_length: 1024
-max_output_length: 256
+max_output_length: 200
 training_args:
   # see `transformers.Seq2SeqTrainingArguments`
   output_dir: ./output
-  max_steps: 3500
+  max_steps: 2400
+  # needed to be fit for the dataset
+  learning_rate: 1e-5
   # settings for data loading
   per_device_train_batch_size: 1
   dataloader_num_workers: 8
   remove_unused_columns: false
   # settings for saving checkpoints
   save_strategy: steps
-  save_steps: 500
+  save_steps: 100
   # settings for logging
   log_level: info
   logging_strategy: steps
   logging_steps: 10
   # settings for evaluation
-  per_device_eval_batch_size: 16
+  per_device_eval_batch_size: 12
   evaluation_strategy: steps
-  eval_steps: 500
+  eval_steps: 100
   # settings for optimizer
   # adam_epsilon: 1e-6
   # uncomment the following line to detect nan or inf values
@@ -31,7 +33,7 @@ training_args:
   predict_with_generate: true
   # see `transformers.GenerationConfig`
   generation_config:
-    max_new_tokens: 256
+    max_new_tokens: 300
   # set your absolute deepspeed path here
   #deepspeed: ds_zero_2.json
   # set to true if train with cpu.
@@ -39,6 +41,6 @@ training_args:
 peft_config:
   peft_type: LORA
   task_type: CAUSAL_LM
-  r: 8
+  r: 4
   lora_alpha: 32
   lora_dropout: 0.1

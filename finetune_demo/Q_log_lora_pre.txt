@@ -1,0 +1,85 @@
+The model is automatically converting to bf16 for faster inference. If you want to disable the automatic precision, please manually add bf16/fp16/fp32=True to "AutoModelForCausalLM.from_pretrained".
+Try importing flash-attention for faster inference...
+Warning: import flash_attn rotary fail, please install FlashAttention rotary to get higher efficiency https://github.com/Dao-AILab/flash-attention/tree/main/csrc/rotary
+Warning: import flash_attn rms_norm fail, please install FlashAttention layer_norm to get higher efficiency https://github.com/Dao-AILab/flash-attention/tree/main/csrc/layer_norm
+Warning: import flash_attn fail, please install FlashAttention to get higher efficiency https://github.com/Dao-AILab/flash-attention
+Loading checkpoint shards:   0%|          | 0/8 [00:00<?, ?it/s]Loading checkpoint shards:  12%|█▎        | 1/8 [00:10<01:10, 10.11s/it]Loading checkpoint shards:  25%|██▌       | 2/8 [00:21<01:05, 10.84s/it]Loading checkpoint shards:  38%|███▊      | 3/8 [00:32<00:55, 11.07s/it]Loading checkpoint shards:  50%|█████     | 4/8 [00:44<00:44, 11.18s/it]Loading checkpoint shards:  62%|██████▎   | 5/8 [00:55<00:33, 11.25s/it]Loading checkpoint shards:  75%|███████▌  | 6/8 [01:06<00:22, 11.28s/it]Loading checkpoint shards:  88%|████████▊ | 7/8 [01:18<00:11, 11.31s/it]Loading checkpoint shards: 100%|██████████| 8/8 [01:25<00:00, 10.09s/it]Loading checkpoint shards: 100%|██████████| 8/8 [01:25<00:00, 10.71s/it]
+You are using an old version of the checkpointing format that is deprecated (We will also silently ignore `gradient_checkpointing_kwargs` in case you passed it).Please update to the new format on your modeling file. To use the new format, you need to completely remove the definition of the method `_set_gradient_checkpointing` in your model.
+/opt/conda/envs/chatglm3-6b-finetunning/lib/python3.10/site-packages/accelerate/accelerator.py:432: FutureWarning: Passing the following arguments to `Accelerator` is deprecated and will be removed in version 1.0 of Accelerate: dict_keys(['dispatch_batches', 'split_batches', 'even_batches', 'use_seedable_sampler']). Please pass an `accelerate.DataLoaderConfiguration` instead: 
+dataloader_config = DataLoaderConfiguration(dispatch_batches=None, split_batches=False, even_batches=True, use_seedable_sampler=True)
+  warnings.warn(
+Detected kernel version 4.19.24, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+max_steps is given, it will override any value given in num_train_epochs
+***** Running Prediction *****
+  Num examples = 140
+  Batch size = 3
+trainable params: 17,891,328 || all params: 7,739,215,872 || trainable%: 0.23117752878207867
+--> Model
+
+--> model has 17.891328M params
+
+train_dataset: Dataset({
+    features: ['input_ids', 'labels'],
+    num_rows: 1207
+})
+val_dataset: Dataset({
+    features: ['input_ids', 'output_ids'],
+    num_rows: 140
+})
+test_dataset: Dataset({
+    features: ['input_ids', 'output_ids'],
+    num_rows: 140
+})
+A decoder-only architecture is being used, but right-padding was detected! For correct generation results, please set `padding_side='left'` when initializing the tokenizer.
+  0%|          | 0/47 [00:00<?, ?it/s]A decoder-only architecture is being used, but right-padding was detected! For correct generation results, please set `padding_side='left'` when initializing the tokenizer.
+  4%|▍         | 2/47 [00:12<04:34,  6.10s/it]A decoder-only architecture is being used, but right-padding was detected! For correct generation results, please set `padding_side='left'` when initializing the tokenizer.
+  6%|▋         | 3/47 [00:23<06:04,  8.27s/it]A decoder-only architecture is being used, but right-padding was detected! For correct generation results, please set `padding_side='left'` when initializing the tokenizer.
+  9%|▊         | 4/47 [00:33<06:29,  9.06s/it]A decoder-only architecture is being used, but right-padding was detected! For correct generation results, please set `padding_side='left'` when initializing the tokenizer.
+ 11%|█         | 5/47 [00:45<06:52,  9.81s/it]A decoder-only architecture is being used, but right-padding was detected! For correct generation results, please set `padding_side='left'` when initializing the tokenizer.
+ 13%|█▎        | 6/47 [00:56<06:57, 10.18s/it]A decoder-only architecture is being used, but right-padding was detected! For correct generation results, please set `padding_side='left'` when initializing the tokenizer.
+ 15%|█▍        | 7/47 [01:08<07:11, 10.78s/it]A decoder-only architecture is being used, but right-padding was detected! For correct generation results, please set `padding_side='left'` when initializing the tokenizer.
+ 17%|█▋        | 8/47 [01:18<06:54, 10.62s/it]A decoder-only architecture is being used, but right-padding was detected! For correct generation results, please set `padding_side='left'` when initializing the tokenizer.
+ 19%|█▉        | 9/47 [01:28<06:43, 10.61s/it]A decoder-only architecture is being used, but right-padding was detected! For correct generation results, please set `padding_side='left'` when initializing the tokenizer.
+ 21%|██▏       | 10/47 [01:40<06:46, 10.98s/it]A decoder-only architecture is being used, but right-padding was detected! For correct generation results, please set `padding_side='left'` when initializing the tokenizer.
+ 23%|██▎       | 11/47 [01:51<06:33, 10.93s/it]A decoder-only architecture is being used, but right-padding was detected! For correct generation results, please set `padding_side='left'` when initializing the tokenizer.
+ 26%|██▌       | 12/47 [02:02<06:27, 11.06s/it]A decoder-only architecture is being used, but right-padding was detected! For correct generation results, please set `padding_side='left'` when initializing the tokenizer.
+ 28%|██▊       | 13/47 [02:15<06:26, 11.37s/it]A decoder-only architecture is being used, but right-padding was detected! For correct generation results, please set `padding_side='left'` when initializing the tokenizer.
+ 30%|██▉       | 14/47 [02:26<06:20, 11.52s/it]A decoder-only architecture is being used, but right-padding was detected! For correct generation results, please set `padding_side='left'` when initializing the tokenizer.
+ 32%|███▏      | 15/47 [02:38<06:05, 11.43s/it]A decoder-only architecture is being used, but right-padding was detected! For correct generation results, please set `padding_side='left'` when initializing the tokenizer.
+ 34%|███▍      | 16/47 [02:49<05:53, 11.39s/it]A decoder-only architecture is being used, but right-padding was detected! For correct generation results, please set `padding_side='left'` when initializing the tokenizer.
+ 36%|███▌      | 17/47 [03:01<05:43, 11.46s/it]A decoder-only architecture is being used, but right-padding was detected! For correct generation results, please set `padding_side='left'` when initializing the tokenizer.
+ 38%|███▊      | 18/47 [03:13<05:37, 11.65s/it]A decoder-only architecture is being used, but right-padding was detected! For correct generation results, please set `padding_side='left'` when initializing the tokenizer.
+ 40%|████      | 19/47 [03:25<05:28, 11.75s/it]A decoder-only architecture is being used, but right-padding was detected! For correct generation results, please set `padding_side='left'` when initializing the tokenizer.
+ 43%|████▎     | 20/47 [03:35<05:06, 11.35s/it]A decoder-only architecture is being used, but right-padding was detected! For correct generation results, please set `padding_side='left'` when initializing the tokenizer.
+ 45%|████▍     | 21/47 [03:46<04:54, 11.33s/it]A decoder-only architecture is being used, but right-padding was detected! For correct generation results, please set `padding_side='left'` when initializing the tokenizer.
+ 47%|████▋     | 22/47 [03:59<04:50, 11.61s/it]A decoder-only architecture is being used, but right-padding was detected! For correct generation results, please set `padding_side='left'` when initializing the tokenizer.
+ 49%|████▉     | 23/47 [04:09<04:29, 11.24s/it]A decoder-only architecture is being used, but right-padding was detected! For correct generation results, please set `padding_side='left'` when initializing the tokenizer.
+ 51%|█████     | 24/47 [04:21<04:26, 11.60s/it]A decoder-only architecture is being used, but right-padding was detected! For correct generation results, please set `padding_side='left'` when initializing the tokenizer.
+ 53%|█████▎    | 25/47 [04:32<04:11, 11.43s/it]A decoder-only architecture is being used, but right-padding was detected! For correct generation results, please set `padding_side='left'` when initializing the tokenizer.
+ 55%|█████▌    | 26/47 [04:44<04:01, 11.50s/it]A decoder-only architecture is being used, but right-padding was detected! For correct generation results, please set `padding_side='left'` when initializing the tokenizer.
+ 57%|█████▋    | 27/47 [04:56<03:54, 11.75s/it]A decoder-only architecture is being used, but right-padding was detected! For correct generation results, please set `padding_side='left'` when initializing the tokenizer.
+ 60%|█████▉    | 28/47 [05:09<03:45, 11.87s/it]A decoder-only architecture is being used, but right-padding was detected! For correct generation results, please set `padding_side='left'` when initializing the tokenizer.
+ 62%|██████▏   | 29/47 [05:19<03:23, 11.32s/it]A decoder-only architecture is being used, but right-padding was detected! For correct generation results, please set `padding_side='left'` when initializing the tokenizer.
+ 64%|██████▍   | 30/47 [05:28<03:04, 10.87s/it]A decoder-only architecture is being used, but right-padding was detected! For correct generation results, please set `padding_side='left'` when initializing the tokenizer.
+ 66%|██████▌   | 31/47 [05:40<02:56, 11.04s/it]A decoder-only architecture is being used, but right-padding was detected! For correct generation results, please set `padding_side='left'` when initializing the tokenizer.
+ 68%|██████▊   | 32/47 [05:50<02:40, 10.68s/it]A decoder-only architecture is being used, but right-padding was detected! For correct generation results, please set `padding_side='left'` when initializing the tokenizer.
+ 70%|███████   | 33/47 [06:00<02:29, 10.66s/it]A decoder-only architecture is being used, but right-padding was detected! For correct generation results, please set `padding_side='left'` when initializing the tokenizer.
+ 72%|███████▏  | 34/47 [06:12<02:21, 10.91s/it]A decoder-only architecture is being used, but right-padding was detected! For correct generation results, please set `padding_side='left'` when initializing the tokenizer.
+ 74%|███████▍  | 35/47 [06:24<02:16, 11.41s/it]A decoder-only architecture is being used, but right-padding was detected! For correct generation results, please set `padding_side='left'` when initializing the tokenizer.
+ 77%|███████▋  | 36/47 [06:37<02:07, 11.63s/it]A decoder-only architecture is being used, but right-padding was detected! For correct generation results, please set `padding_side='left'` when initializing the tokenizer.
+ 79%|███████▊  | 37/47 [06:47<01:52, 11.24s/it]A decoder-only architecture is being used, but right-padding was detected! For correct generation results, please set `padding_side='left'` when initializing the tokenizer.
+ 81%|████████  | 38/47 [06:58<01:40, 11.18s/it]A decoder-only architecture is being used, but right-padding was detected! For correct generation results, please set `padding_side='left'` when initializing the tokenizer.
+ 83%|████████▎ | 39/47 [07:10<01:32, 11.55s/it]A decoder-only architecture is being used, but right-padding was detected! For correct generation results, please set `padding_side='left'` when initializing the tokenizer.
+ 85%|████████▌ | 40/47 [07:22<01:21, 11.58s/it]A decoder-only architecture is being used, but right-padding was detected! For correct generation results, please set `padding_side='left'` when initializing the tokenizer.
+ 87%|████████▋ | 41/47 [07:34<01:10, 11.81s/it]A decoder-only architecture is being used, but right-padding was detected! For correct generation results, please set `padding_side='left'` when initializing the tokenizer.
+ 89%|████████▉ | 42/47 [07:45<00:57, 11.57s/it]A decoder-only architecture is being used, but right-padding was detected! For correct generation results, please set `padding_side='left'` when initializing the tokenizer.
+ 91%|█████████▏| 43/47 [07:56<00:44, 11.16s/it]A decoder-only architecture is being used, but right-padding was detected! For correct generation results, please set `padding_side='left'` when initializing the tokenizer.
+ 94%|█████████▎| 44/47 [08:08<00:34, 11.51s/it]A decoder-only architecture is being used, but right-padding was detected! For correct generation results, please set `padding_side='left'` when initializing the tokenizer.
+ 96%|█████████▌| 45/47 [08:19<00:23, 11.53s/it]A decoder-only architecture is being used, but right-padding was detected! For correct generation results, please set `padding_side='left'` when initializing the tokenizer.
+ 98%|█████████▊| 46/47 [08:30<00:11, 11.15s/it]A decoder-only architecture is being used, but right-padding was detected! For correct generation results, please set `padding_side='left'` when initializing the tokenizer.
+100%|██████████| 47/47 [08:40<00:00, 10.89s/it]Building prefix dict from the default dictionary ...
+Loading model from cache /tmp/jieba.cache
+Loading model cost 0.624 seconds.
+Prefix dict has been built successfully.
+100%|██████████| 47/47 [08:48<00:00, 11.24s/it]
+{'test_rouge-1': 20.50472357142857, 'test_rouge-2': 8.399302142857143, 'test_rouge-l': 5.126126428571428, 'test_bleu-4': 0.008577986435085932, 'test_runtime': 541.444, 'test_samples_per_second': 0.259, 'test_steps_per_second': 0.087}

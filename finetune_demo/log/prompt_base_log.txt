@@ -1,0 +1,19 @@
+trainable params: 1,949,696 || all params: 6,245,533,696 || trainable%: 0.031217444255383614
+--> Model
+
+--> model has 1.949696M params
+
+train_dataset: Dataset({
+    features: ['input_ids', 'labels'],
+    num_rows: 1207
+})
+val_dataset: Dataset({
+    features: ['input_ids', 'output_ids'],
+    num_rows: 136
+})
+test_dataset: Dataset({
+    features: ['input_ids', 'output_ids'],
+    num_rows: 136
+})
+{'test_rouge-1': 48.460462500000006, 'test_rouge-2': 23.463423529411767, 'test_rouge-l': 37.553466176470586, 'test_bleu-4': 0.14133271245683102, 'test_runtime': 199.7185, 'test_samples_per_second': 0.681, 'test_steps_per_second': 0.06}
+{'test_rouge-1': 48.460462500000006, 'test_rouge-2': 23.463423529411767, 'test_rouge-l': 37.553466176470586, 'test_bleu-4': 0.14133271245683102, 'test_runtime': 198.8297, 'test_samples_per_second': 0.684, 'test_steps_per_second': 0.06}
